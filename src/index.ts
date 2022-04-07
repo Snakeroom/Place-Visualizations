@@ -1,9 +1,11 @@
+import { PlaceVisualizationsConfig } from "./config/config";
 import { VISUALIZATIONS } from "./visualization";
 import { VisualizationBindingList } from "./util/canvas";
 import { createGunzip } from "node:zlib";
 import csvParser from "csv-parser";
 import { dataOrder } from "./util/constants";
 import fs from "fs-extra";
+import { loadConfig } from "./config/load-config";
 import { log } from "./util/debug";
 
 function generate(path: string, bindings: VisualizationBindingList): Promise<void> {
@@ -30,7 +32,7 @@ function generate(path: string, bindings: VisualizationBindingList): Promise<voi
 	});
 }
 
-async function generateAll() {
+async function generateAll(config: PlaceVisualizationsConfig) {
 	const bindings = new VisualizationBindingList(VISUALIZATIONS);
 	log("created %d visualization bindings", bindings.getSize());
 
@@ -47,13 +49,20 @@ async function generateAll() {
 			log("failed to generate from '%s' (%d of %d, %d%%)", path, index + 1, dataOrder.length, percent);
 		}
 
-		if (index > 4) {
+		index += 1;
+		if (config.maxFiles !== -1 && index >= config.maxFiles) {
+			log("stopping early to respect max files configuration");
 			break;
 		}
-		index += 1;
 	}
 
 	await bindings.writeAll();
 }
+
+async function run() {
+	const config = await loadConfig();
+	await generateAll(config);
+}
+
 /* eslint-disable-next-line unicorn/prefer-top-level-await */
-generateAll();
+run();

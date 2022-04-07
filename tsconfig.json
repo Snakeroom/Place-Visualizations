@@ -17,6 +17,7 @@
 		"types": [
 			"@types/debug",
 			"@types/fs-extra",
+			"@types/merge-deep",
 			"@types/node"
 		]
 	}

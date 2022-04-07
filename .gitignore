@@ -131,3 +131,14 @@ data/
 
 # Generated visualizations
 generated/
+
+# Configuration
+config.json
+.placevisualizationsrc
+.placevisualizationsrc.json
+.placevisualizationsrc.yaml
+.placevisualizationsrc.yml
+.placevisualizationsrc.js
+.placevisualizationsrc.cjs
+placevisualizations.config.js
+placevisualizations.config.cjs
