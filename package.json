@@ -4,7 +4,8 @@
 	"version": "1.0.0",
 	"main": "./src/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint \"./**/*.js\" --ignore-path .gitignore"
 	},
 	"repository": {
 		"type": "git",
@@ -22,5 +23,12 @@
 	"bugs": {
 		"url": "https://github.com/Snakeroom/Place-Visualizations/issues"
 	},
-	"homepage": "https://github.com/Snakeroom/Place-Visualizations#readme"
+	"homepage": "https://github.com/Snakeroom/Place-Visualizations#readme",
+	"devDependencies": {
+		"eslint": "^8.12.0",
+		"eslint-config-haykam": "^1.16.1"
+	},
+	"eslintConfig": {
+		"extends": "eslint-config-haykam"
+	}
 }
