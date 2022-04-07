@@ -1,0 +1,29 @@
+name: Generate
+on:
+  push:
+    branches:
+      - master
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+      - name: Install
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Download
+        run: |
+          mkdir data
+          cd data
+          curl -O "https://placedata.reddit.com/data/canvas-history/2022_place_canvas_history-0000000000[00-77].csv.gzip"
+      - name: Generate
+        run: npm run start
+        env:
+          DEBUG: place-visualizations:*
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        with:
+          branch: gh-pages
+          folder: generated
