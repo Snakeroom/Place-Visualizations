@@ -1,12 +1,12 @@
-const csvParser = require("csv-parser");
-const fs = require("fs-extra");
-const { createGunzip } = require("zlib");
-const { visualizations } = require("./visualization");
-const VisualizationBindingList = require("./util/canvas.js");
-const log = require("./util/debug.js");
-const { dataOrder } = require("./util/constants");
+import { VISUALIZATIONS } from "./visualization";
+import { VisualizationBindingList } from "./util/canvas";
+import { createGunzip } from "node:zlib";
+import csvParser from "csv-parser";
+import { dataOrder } from "./util/constants";
+import fs from "fs-extra";
+import { log } from "./util/debug";
 
-function generate(path, bindings) {
+function generate(path: string, bindings: VisualizationBindingList): Promise<void> {
 	return new Promise((resolve, reject) => {
 		const stream = fs
 			.createReadStream(path)
@@ -31,7 +31,7 @@ function generate(path, bindings) {
 }
 
 async function generateAll() {
-	const bindings = new VisualizationBindingList(visualizations);
+	const bindings = new VisualizationBindingList(VISUALIZATIONS);
 	log("created %d visualization bindings", bindings.getSize());
 
 	let index = 0;

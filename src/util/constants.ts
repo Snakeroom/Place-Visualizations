@@ -1,9 +1,9 @@
 const size = 2000;
 
-module.exports.width = size;
-module.exports.height = size;
+export const WIDTH = size;
+export const HEIGHT = size;
 
-const palette = {
+export const PALETTE = {
 	/* eslint-disable camelcase */
 	beige: "#FFB470",
 	black: "#000000",
@@ -39,9 +39,8 @@ const palette = {
 	yellow: "#FFD635",
 	/* eslint-enable camelcase */
 };
-module.exports.palette = palette;
 
-const dataOrder = [
+export const dataOrder = [
 	1,
 	2,
 	3,
@@ -121,4 +120,3 @@ const dataOrder = [
 	68,
 	71,
 ];
-module.exports.dataOrder = dataOrder;
