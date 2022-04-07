@@ -7,8 +7,8 @@ export class FilteredVisualization extends Visualization {
 	private readonly parent: Visualization;
 	private readonly predicate: TilePredicate;
 
-	constructor(parent: Visualization, predicate: TilePredicate) {
-		super();
+	constructor(name: string, parent: Visualization, predicate: TilePredicate) {
+		super(name);
 
 		this.parent = parent;
 		this.predicate = predicate;

@@ -1,12 +1,11 @@
-import { HEIGHT, PALETTE, WIDTH } from "./constants";
+import { GENERATED_PATH, HEIGHT, WIDTH } from "./constants";
 
 import { Canvas } from "canvas";
 import { CanvasRenderingContext2D } from "canvas";
 import { Visualization } from "../visualization/visualization";
+import { WHITE } from "./palette";
 import fs from "fs-extra";
 import { log } from "./debug";
-
-const generated = "./generated";
 
 class VisualizationBinding {
 	private readonly key: string;
@@ -22,7 +21,7 @@ class VisualizationBinding {
 		this.canvas = new Canvas(WIDTH, HEIGHT);
 		this.context = this.canvas.getContext("2d");
 
-		this.context.fillStyle = PALETTE.white;
+		this.context.fillStyle = WHITE.colorDefinition;
 		this.context.fillRect(0, 0, WIDTH, HEIGHT);
 	}
 
@@ -35,8 +34,24 @@ class VisualizationBinding {
 		this.visualization.draw(this.context, x, y, color);
 	}
 
+	getFileName(): string {
+		return `${this.key}.png`;
+	}
+
 	getPath(): string {
-		return `${generated}/${this.key}.png`;
+		return `${GENERATED_PATH}/${this.getFileName()}`;
+	}
+
+	getRelativePath(): string {
+		return "./" + this.getFileName();
+	}
+
+	getKey(): string {
+		return this.key;
+	}
+
+	getName(): string {
+		return this.visualization.getName();
 	}
 
 	write(): Promise<void> {
@@ -56,13 +71,19 @@ class VisualizationBinding {
 	}
 }
 
+type VisualizationBindingForEach = (value: VisualizationBinding) => void;
+
 export class VisualizationBindingList {
 	private readonly bindings: VisualizationBinding[];
 
 	constructor(visualizations: Record<string, Visualization>) {
-		this.bindings = Object.entries(visualizations).map(([key, visualization]) => {
-			return new VisualizationBinding(key, visualization);
-		});
+		this.bindings = Object.entries(visualizations)
+			.map(([key, visualization]) => {
+				return new VisualizationBinding(key, visualization);
+			})
+			.sort((a, b) => {
+				return a.getName().localeCompare(b.getName());
+			});
 	}
 
 	getSize(): number {
@@ -83,11 +104,14 @@ export class VisualizationBindingList {
 	async writeAll(): Promise<void> {
 		log("writing %d visualization bindings", this.getSize());
 
-		await fs.ensureDir(generated);
 		for (const binding of this.bindings) {
 			await binding.write();
 		}
 
 		log("wrote %d visualization bindings", this.getSize());
+	}
+
+	forEach(callback: VisualizationBindingForEach): void {
+		this.bindings.forEach(callback);
 	}
 }

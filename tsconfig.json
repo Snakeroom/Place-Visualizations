@@ -16,6 +16,7 @@
 		"target": "es2015",
 		"types": [
 			"@types/debug",
+			"@types/ejs",
 			"@types/fs-extra",
 			"@types/merge-deep",
 			"@types/node"

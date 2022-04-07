@@ -1,10 +1,12 @@
+import { DATA_PATH, GENERATED_PATH, dataOrder } from "./util/constants";
+
 import { PlaceVisualizationsConfig } from "./config/config";
 import { VISUALIZATIONS } from "./visualization";
 import { VisualizationBindingList } from "./util/canvas";
 import { createGunzip } from "node:zlib";
 import csvParser from "csv-parser";
-import { dataOrder } from "./util/constants";
 import fs from "fs-extra";
+import { generateIndexPage } from "./page/generator";
 import { loadConfig } from "./config/load-config";
 import { log } from "./util/debug";
 
@@ -39,7 +41,7 @@ async function generateAll(config: PlaceVisualizationsConfig) {
 	let index = 0;
 	for (const number of dataOrder) {
 		const dataKey = number.toString().padStart(12, "0");
-		const path = "./data/2022_place_canvas_history-" + dataKey + ".csv.gzip";
+		const path = `${DATA_PATH}/2022_place_canvas_history-${dataKey}.csv.gzip`;
 
 		const percent = (number / dataOrder.length * 100).toFixed(2);
 		try {
@@ -56,7 +58,12 @@ async function generateAll(config: PlaceVisualizationsConfig) {
 		}
 	}
 
+	await fs.ensureDir(GENERATED_PATH);
 	await bindings.writeAll();
+
+	if (config.indexPage) {
+		await generateIndexPage(bindings);
+	}
 }
 
 async function run() {
