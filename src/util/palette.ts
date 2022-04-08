@@ -1,12 +1,19 @@
-class PaletteEntry {
+export class PaletteEntry {
 	readonly key: string;
 	readonly name: string;
+
 	readonly colorDefinition: string;
+	readonly rgb: Uint8ClampedArray;
 
 	constructor(key: string, name: string, color: number) {
 		this.key = key;
 		this.name = name;
-		this.colorDefinition = "#" + color.toString(16).padStart(6, "0");
+
+		this.colorDefinition = "#" + color
+			.toString(16)
+			.toUpperCase()
+			.padStart(6, "0");
+		this.rgb = Uint8ClampedArray.of(color >> 16 & 0xFF, color >> 8 & 0xFF, color & 0xFF);
 	}
 }
 
@@ -77,3 +84,10 @@ export const PALETTE = [
 	WHITE,
 	YELLOW,
 ];
+
+export const PALETTE_BY_COLOR_DEFINITION = Object.fromEntries(PALETTE.map(entry => {
+	return [
+		entry.colorDefinition,
+		entry,
+	];
+}));

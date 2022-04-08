@@ -18,9 +18,12 @@ function generate(path: string, bindings: VisualizationBindingList): Promise<voi
 			.pipe(csvParser());
 
 		stream.on("data", data => {
-			const coordinates = data.coordinate.split(",");
+			const coordinates = data.coordinate.split(",") as string[];
 			if (coordinates.length === 2) {
-				bindings.drawAll(coordinates[0], coordinates[1], data.pixel_color);
+				const x = parseInt(coordinates[0]);
+				const y = parseInt(coordinates[1]);
+
+				bindings.drawAll(x, y, data.pixel_color);
 			}
 		});
 

@@ -1,5 +1,4 @@
-import { CanvasRenderingContext2D } from "canvas";
-
+import { VisualizationBinding } from "../util/canvas";
 
 export abstract class Visualization {
 	private readonly name: string;
@@ -13,10 +12,10 @@ export abstract class Visualization {
 	}
 
 	/**
-	 * @param context the context to draw the placed tile to
+	 * @param binding the binding to draw the placed tile to
 	 * @param x the X coordinate of the placed tile
 	 * @param y the Y coordinate of the placed tile
 	 * @param color the color definition of the placed tile
 	 */
-	abstract draw(context: CanvasRenderingContext2D, x: number, y: number, color: string): void;
+	abstract draw(binding: VisualizationBinding, x: number, y: number, color: string): void;
 }

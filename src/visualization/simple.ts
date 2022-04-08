@@ -1,8 +1,9 @@
+import { PALETTE_BY_COLOR_DEFINITION } from "../util/palette";
 import { Visualization } from "./visualization";
+import { VisualizationBinding } from "../util/canvas";
 
 export class SimpleVisualization extends Visualization {
-	override draw(context: CanvasRenderingContext2D, x: number, y: number, color: string): void {
-		context.fillStyle = color;
-		context.fillRect(x, y, 1, 1);
+	override draw(binding: VisualizationBinding, x: number, y: number, color: string): void {
+		binding.putPixel(x, y, PALETTE_BY_COLOR_DEFINITION[color]);
 	}
 }
