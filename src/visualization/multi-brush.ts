@@ -3,10 +3,6 @@ import { HEIGHT, WIDTH } from "../util/constants";
 import { Visualization } from "./visualization";
 import { VisualizationBinding } from "../util/canvas";
 
-function clamp(value: number, min: number, max: number) {
-	return Math.max(min, Math.min(max, value));
-}
-
 type Offset = [number, number];
 
 export class MultiBrushVisualization extends Visualization {
@@ -22,8 +18,13 @@ export class MultiBrushVisualization extends Visualization {
 
 	override draw(binding: VisualizationBinding, originX: number, originY: number, color: string): void {
 		for (const offset of this.offsets) {
-			const x = clamp(originX + offset[0], 0, WIDTH);
-			const y = clamp(originY + offset[1], 0, HEIGHT);
+			const x = originX + offset[0];
+			if (x < 0) continue;
+			if (x >= WIDTH) continue;
+
+			const y = originY + offset[1];
+			if (y < 0) continue;
+			if (y >= HEIGHT) continue;
 
 			this.parent.draw(binding, x, y, color);
 		}
