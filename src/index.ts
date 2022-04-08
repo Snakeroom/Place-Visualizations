@@ -43,15 +43,16 @@ async function generateAll(config: PlaceVisualizationsConfig) {
 		const dataKey = number.toString().padStart(12, "0");
 		const path = `${DATA_PATH}/2022_place_canvas_history-${dataKey}.csv.gzip`;
 
-		const percent = (number / dataOrder.length * 100).toFixed(2);
+		index += 1;
+		const percent = (index / dataOrder.length * 100).toFixed(2);
+
 		try {
 			await generate(path, bindings);
-			log("finished generating from '%s' (%d of %d, %d%%)", path, index + 1, dataOrder.length, percent);
+			log("finished generating from '%s' (%d of %d, %d%%)", path, index, dataOrder.length, percent);
 		} catch {
-			log("failed to generate from '%s' (%d of %d, %d%%)", path, index + 1, dataOrder.length, percent);
+			log("failed to generate from '%s' (%d of %d, %d%%)", path, index, dataOrder.length, percent);
 		}
 
-		index += 1;
 		if (config.maxFiles !== -1 && index >= config.maxFiles) {
 			log("stopping early to respect max files configuration");
 			break;
