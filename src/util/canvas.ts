@@ -63,7 +63,9 @@ export class VisualizationBinding {
 
 	write(): Promise<void> {
 		return new Promise((resolve, reject) => {
+			this.visualization.finalize(this);
 			this.context.putImageData(this.imageData, 0, 0);
+			log("finalized '%s' visualization binding", this.key);
 
 			const stream = this.canvas
 				.createPNGStream()

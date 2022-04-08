@@ -18,4 +18,12 @@ export abstract class Visualization {
 	 * @param color the color definition of the placed tile
 	 */
 	abstract draw(binding: VisualizationBinding, x: number, y: number, color: string): void;
+
+	/**
+	 * @param binding the binding to finalize
+	 */
+	/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+	finalize(binding: VisualizationBinding): void {
+		return;
+	}
 }
