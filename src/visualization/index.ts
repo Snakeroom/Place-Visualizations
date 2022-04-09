@@ -1,3 +1,4 @@
+import { EveryColorVisualization } from "./every-color";
 import { FilteredVisualization } from "./filtered";
 import { LockedVisualization } from "./locked";
 import { MultiBrushVisualization } from "./multi-brush";
@@ -18,6 +19,7 @@ function createVisualizations(): Record<string, Visualization> {
 			[0, -1],
 			[0, 1],
 		]),
+		every_color: new EveryColorVisualization("Every Color"),
 		locked_after_first_placement: new LockedVisualization("Locked After First Placement", base, 1),
 		locked_after_hundredth_placement: new LockedVisualization("Locked After Hundredth Placement", base, 100),
 		locked_after_tenth_placement: new LockedVisualization("Locked After Tenth Placement", base, 10),
